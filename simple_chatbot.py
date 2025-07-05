@@ -1,10 +1,12 @@
-from langchain_ollama import ChatOllama
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
+from dotenv import load_dotenv
+load_dotenv()
 
-model = ChatOllama(model="llama3.2")
+model = ChatGoogleGenerativeAI(model="gemini-2.0-flash")
 
 chat_history = [
-    SystemMessage(content="You are a helpful AI Doctor")
+    SystemMessage(content="You are a helpful AI Assistant")
 ]
 
 while True:
