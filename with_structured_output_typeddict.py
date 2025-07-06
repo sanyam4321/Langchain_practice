@@ -1,15 +1,15 @@
 from langchain_google_genai import ChatGoogleGenerativeAI
 from dotenv import load_dotenv
-from typing import TypedDict, Annotated, Optional
+from typing import TypedDict, Annotated, Optional, Literal
 
 load_dotenv()
 
-model = ChatGoogleGenerativeAI(model="gemini-2.0-flash")
+model = ChatGoogleGenerativeAI(model="gemini-2.5-flash")
 
 class Review(TypedDict):
-    key_themes: Annotated[list[str], "list all the key themes discussed in the review"]
     summary: Annotated[str, "a brief summary of the review"]
-    sentiment: Annotated[str, "overall sentiment of the review: negative, positive or neutral"]
+    sentiment: Annotated[Literal["+ve", "-ve"], "overall sentiment of the review"]
+    key_themes: Annotated[list[str], "list all the key themes discussed in the review"]
     pros: Annotated[Optional[list[str]], "list all the pros"]
     cons: Annotated[Optional[list[str]], "list all the cons"]
 
@@ -39,4 +39,5 @@ Bloatware still exists in One UI
 
 Expensive compared to competitors""")
 
-print(result)
+import pprint
+pprint.pprint(result)
