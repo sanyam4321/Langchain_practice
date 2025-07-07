@@ -1,7 +1,10 @@
-from langchain_ollama import ChatOllama
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import PromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+from dotenv import load_dotenv
+load_dotenv()
 
-model = ChatOllama(model="llama3.2", num_predict=1000)
+model = ChatGoogleGenerativeAI(model="gemini-2.5-flash")
 
 template1 = PromptTemplate(
     template='Write a detailed report on {topic}',
@@ -14,15 +17,10 @@ template2 = PromptTemplate(
     input_variables=['text']
 )
 
+parser = StrOutputParser()
 
-prompt1 = template1.invoke({'topic': 'football'})
+chain = template1 | model | parser | template2 | model | parser
 
-result = model.invoke(prompt1)
+result = chain.invoke({'topic': 'black hole'})
 
-prompt2 = template2.invoke({'text': result.content})
-
-result = model.invoke(prompt2)
-
-print(result.content)
-
-
+print(result)
