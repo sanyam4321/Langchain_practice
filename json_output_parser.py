@@ -9,13 +9,12 @@ model = ChatGoogleGenerativeAI(model="gemini-2.5-flash")
 parser = JsonOutputParser()
 
 template = PromptTemplate(
-    template='Give me name, age and city of a fictional person\n. {format_instruction}',
+    template='Give me name, age and city of a fictional person. {format_instruction}',
     input_variables=[],
     partial_variables={'format_instruction': parser.get_format_instructions()}
 )  
 
-prompt = template.format()
+chain = template | model | parser
+result = chain.invoke({})
 
-result = model.invoke(prompt)
-final_result = parser.parse(result.content)
-print(final_result)
+print(result)
