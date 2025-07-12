@@ -72,17 +72,23 @@ class RunnableConnector(Runnable):
     
 
         
-template = SamplePromptTemplate(
-    template='Write a {length} poem about a {topic}',
-    input_variables=['length', 'topic']
+template1 = SamplePromptTemplate(
+    template='Write a joke about {topic}',
+    input_variables=['topic']
+)
+
+template2 = SamplePromptTemplate(
+    template='Explain the following joke: {response}',
+    input_variables=['response']
 )
 
 llm = SampleLLM()
 parser = SampleStrOutputParser()
 
-chain = RunnableConnector([template, llm, parser])
-print(chain.invoke({
-    'length': 'long',
-    'topic': 'delhi'
-}))
 
+chain1 = RunnableConnector([template1, llm])
+
+chain2 = RunnableConnector([template2, llm, parser])
+
+final_chain = RunnableConnector([chain1, chain2])
+print(final_chain.invoke({'topic': 'AI'}))
