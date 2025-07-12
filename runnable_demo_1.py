@@ -1,6 +1,14 @@
 import random
+from abc import ABC, abstractmethod
 
-class SampleLLM:
+class Runnable(ABC):
+
+    @abstractmethod
+    def invoke(input_data):
+        pass
+
+
+class SampleLLM(Runnable):
     def __init__(self):
         print("LLM created")
 
@@ -13,13 +21,25 @@ class SampleLLM:
 
         return {'response': random.choice(response_list)}
     
+    def invoke(self, prompt):
+        response_list = [
+            'delhi is the capital of india',
+            'ipl is a popular cricket league',
+            'AI stands for artificial intelligence'
+        ]
 
-class SamplePromptTemplate:
+        return {'response': random.choice(response_list)}
+    
+
+class SamplePromptTemplate(Runnable):
     def __init__(self, template, input_variables):
         self.template = template
         self.input_variables = input_variables
     
     def format(self, input_dict):
+        return self.template.format(**input_dict)
+    
+    def invoke(self, input_dict):
         return self.template.format(**input_dict)
 
 class SampleLLMChain:
