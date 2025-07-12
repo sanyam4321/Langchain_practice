@@ -53,7 +53,24 @@ class SampleLLMChain:
         result = self.llm.predict(final_prompt)
         return result['response']
 
-      
+class SampleStrOutputParser(Runnable):
+
+    def __init__(self):
+        pass
+
+    def invoke(self, input_data):
+        return input_data['response']     
+
+class RunnableConnector(Runnable):
+    def __init__(self, runnable_list):
+        self.runnable_list = runnable_list
+
+    def invoke(self, input_data):
+        for runnable in self.runnable_list:
+            input_data = runnable.invoke(input_data)
+        return input_data
+    
+
         
 template = SamplePromptTemplate(
     template='Write a {length} poem about a {topic}',
@@ -61,7 +78,11 @@ template = SamplePromptTemplate(
 )
 
 llm = SampleLLM()
+parser = SampleStrOutputParser()
 
+chain = RunnableConnector([template, llm, parser])
+print(chain.invoke({
+    'length': 'long',
+    'topic': 'delhi'
+}))
 
-chain = SampleLLMChain(llm, template)
-print(chain.run({'length': 'short', 'topic': 'india'}))
