@@ -23,7 +23,7 @@ def word_count(text):
 
 parser = StrOutputParser()
 
-joke_gen_chain = RunnableSequence(prompt1, model, parser)
+joke_gen_chain = prompt1 | model | parser
 
 parallel_chain = RunnableParallel({
     'joke': RunnablePassthrough(),
