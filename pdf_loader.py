@@ -10,3 +10,4 @@ model = ChatGoogleGenerativeAI(model='gemini-2.5-flash')
 loader = PyPDFLoader('git-cheat-sheet-education.pdf')
 docs = loader.load()
 print(len(docs))
+
