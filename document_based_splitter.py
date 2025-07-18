@@ -29,7 +29,7 @@ Define:
 
 splitter = RecursiveCharacterTextSplitter.from_language(
     language=Language.MARKDOWN,
-    chunk_size=200,
+    chunk_size=2000,
     chunk_overlap=10
 )
 
