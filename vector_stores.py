@@ -37,4 +37,7 @@ vector_store = Chroma(
     collection_name='players'
 )
 
-print(vector_store.add_documents(docs))
+vector_store.add_documents(docs)
+
+output = vector_store.get(include=['embeddings', 'documents', 'metadatas'])
+print(output)
