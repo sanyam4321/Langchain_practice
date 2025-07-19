@@ -33,11 +33,26 @@ docs = [doc1, doc2, doc3, doc4, doc5]
 
 vector_store = Chroma(
     embedding_function=OllamaEmbeddings(model='nomic-embed-text:latest'),
-    persist_directory='chroma_db_vectors',
+    # persist_directory='chroma_db_vectors',
     collection_name='players'
 )
 
 vector_store.add_documents(docs)
+vector_store.get(include=['embeddings', 'documents', 'metadatas'])
 
-output = vector_store.get(include=['embeddings', 'documents', 'metadatas'])
+output = vector_store.similarity_search(
+    query='Who among these is a bolwer?',
+    k=2
+)
+
+output = vector_store.similarity_search_with_score(
+    query='Who among these is a bolwer?',
+    k=2
+)
+
+#metadata filtering
+output = vector_store.similarity_search_with_score(
+    query='',
+    filter={'team': "Chennai Super Kings"}
+)
 print(output)
