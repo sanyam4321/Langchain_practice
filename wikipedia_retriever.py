@@ -1,6 +1,7 @@
 from langchain_community.retrievers import WikipediaRetriever
 
 # retriever is a runnable
+# returns output as LangChain Document Objects
 retriever = WikipediaRetriever(top_k_results='2', lang='en')
 
 query = 'how black holes were discovered'
